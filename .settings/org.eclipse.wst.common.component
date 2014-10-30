@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="b-jui-demo">
+        <wb-resource deploy-path="/" source-path="/WebRoot" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/" source-path="/src"/>
+        <dependent-module archiveName="app_servlet_util.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/app_servlet_util/app_servlet_util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="app_util.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/app_util/app_util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="app_framework.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/app_framework/app_framework">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/b-jui-demo/build/classes"/>
+        <property name="context-root" value="b-jui-demo"/>
+    </wb-module>
+</project-modules>

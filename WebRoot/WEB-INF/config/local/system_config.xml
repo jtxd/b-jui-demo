@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../schema/ccsuntel.xsd">
+	<params>
+		<!-- 默认密码  123456 -->
+		<param name="default_pwd" value="14e1b600b1fd579f47433b88e8d85291" />
+		
+		
+	</params>
+
+	<connections />
+	<businesses/>
+</root>

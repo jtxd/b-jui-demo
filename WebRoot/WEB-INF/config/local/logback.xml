@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+	
+	<contextName>webserver</contextName>
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">   
+	    <!-- encoder 默认配置为PatternLayoutEncoder -->   
+	    <encoder>   
+	      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+	    </encoder>   
+	</appender>
+	
+	<!--日志异步到数据库 -->  
+    <!-- <appender name="db" class="ch.qos.logback.classic.db.DBAppender">
+        日志异步到数据库 
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+           连接池 
+           <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+              <driverClass>com.mysql.jdbc.Driver</driverClass>
+              <url>jdbc:mysql://127.0.0.1:3306/360doctor?characterEncoding=utf-8</url>
+              <user>root</user>
+              <password></password>
+            </dataSource>
+        </connectionSource>
+  	</appender> -->
+
+	<logger name="org.springframework" level="WARN" />
+	<logger name="org.apache.http" level="WARN" />
+	<logger name="org.mybatis" level="INFO" />
+
+	<!-- <logger name="keywords" level="INFO" >
+		<appender-ref ref="db" />
+	</logger> -->
+
+	<root level="DEBUG">
+		<appender-ref ref="console" />
+		<!-- <appender-ref ref="file" /> -->
+	</root>
+</configuration>

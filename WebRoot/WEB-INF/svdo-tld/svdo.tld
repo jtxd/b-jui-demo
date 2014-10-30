@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+        "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+        
+<taglib> <!-- 标签定义成<test:add /> -->
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.2</jspversion>
+    <shortname>svdo</shortname> <!-- 这个test可以设置为空，你标签就可以定义成<add />了，不过一般比较常见的都是<test:add />这种类型的 -->
+    <!-- 通过roleId获取用户信息 -->
+    <tag>
+       <name>pmsnBtn</name>
+       <tagclass>com.sevendosoft.access.util.utag.PermissionBtnTag</tagclass>
+       <bodycontent>empty</bodycontent> <!-- 就是<test:add ></test>中间的内容是空的 -->
+       <info>Add Tag</info>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>href</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>permission</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>node</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>	
+			<name>clazz</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>	
+			<name>target</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>	
+			<name>max</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>	
+			<name>rel</name>
+			<required>false</required>
+           	<rtexprvalue>true</rtexprvalue>
+        </attribute>
+		<attribute>   	
+			<name>title</name>
+			<required>false</required>
+           	<rtexprvalue>true</rtexprvalue>
+        </attribute>
+		<attribute>   	
+			<name>width</name>
+			<required>false</required>
+           	<rtexprvalue>true</rtexprvalue>
+        </attribute>
+		<attribute>  	
+			<name>height</name>
+			<required>false</required>
+           <rtexprvalue>true</rtexprvalue>         
+       </attribute>
+       <attribute>  	
+			<name>fresh</name>
+			<required>false</required>
+           <rtexprvalue>true</rtexprvalue>         
+       </attribute>
+       <attribute>
+			<name>order_detail</name>
+			<required>false</required>
+           <rtexprvalue>false</rtexprvalue>         
+       </attribute>
+    </tag>
+    <!-- 树菜单解析 -->
+    <tag>
+       <name>tree</name>
+       <tagclass>com.sevendosoft.access.util.utag.RoleTreeTag</tagclass>
+       <bodycontent>empty</bodycontent>
+       <info>Add Tag</info>
+		<attribute>
+			<name>list</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+       
+    </tag>
+    
+</taglib>

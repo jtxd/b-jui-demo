@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysInfoUser">
+
+	<!-- 用户登录 -->
+	<select id="getLoginInfo" parameterType="java.util.HashMap" resultType="com.sevendosoft.access.model.SysInfoUser" >
+		SELECT a.userId,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo , 
+				b.roleCode,b.roleName
+		  FROM sysinfouser a left join sysinforole b on a.roleId = b.roleId 
+		 WHERE a.userName=#{userName} AND a.passWord=#{passWord}
+	</select>
+
+	<!-- 列表信息 -->
+	<select id="getPageInfoList" parameterType="java.util.HashMap" resultType="java.util.HashMap" >
+		SELECT a.*,(select a1.roleName from sysinforole a1 WHERE a1.roleId = a.roleId) roleName
+		  FROM sysinfouser a
+		 WHERE 1=1 
+		<if test="keyWord != null">
+			AND (a.userName LIKE '%${keyWord}%' or a.userId LIKE '%${keyWord}%')
+		</if>
+		ORDER BY a.createTime DESC
+		LIMIT #{start}, #{pageSize}
+	</select>
+	<select id="getPageInfoListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+		SELECT COUNT(1) AS nums 
+		  FROM sysinfouser a
+		 WHERE 1=1 
+		<if test="keyWord != null">
+			AND (a.userName LIKE '%${keyWord}%' or a.userId LIKE '%${keyWord}%')
+		</if>
+	</select>
+	
+	<!-- 添加信息 -->
+	<insert id="addUserInfo" parameterType="com.sevendosoft.access.model.SysInfoUser" 
+		flushCache="true" 
+		keyProperty="userId" 
+		keyColumn="userId" 
+		useGeneratedKeys="true"
+	>
+		INSERT INTO sysinfouser 
+		( userName , passWord, createTime, sex ,
+			<if test="birthday!='' and birthday!=null">birthday ,</if> 
+			idCard ,mobile ,phone , email ,addr ,createUserId ,createIp ,isDefPassWord ,isUsed,sortNo, roleId ) VALUES 
+		( #{userName} , #{passWord} , #{createTime} , #{sex},
+			<if test="birthday!='' and birthday!=null">#{birthday},</if>	
+			#{idCard },#{mobile } ,	#{phone } ,#{email } ,#{addr } ,#{createUserId } ,#{createIp } ,#{isDefPassWord } ,#{isUsed} ,#{sortNo}, #{roleId} )
+	</insert>
+	
+	<!-- 通过ID 查询信息 -->
+	<select id="getUserInfoById" parameterType="java.lang.Long" resultType="com.sevendosoft.access.model.SysInfoUser">
+		SELECT a.* FROM sysinfouser a WHERE a.userId = #{userId}
+	</select>
+	
+	<!-- 通过名字 统计个数 -->
+	<select id="checkUserNameCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM sysinfouser a WHERE a.userName = #{userName}
+	</select>
+	
+	<!-- 通过ID 修改信息 -->
+	<update id="updateSysInfoUser" parameterType="com.sevendosoft.access.model.SysInfoUser" flushCache="true">
+		UPDATE sysinfouser
+		   SET userName = #{userName} , 
+			   sex = #{sex}, 
+			   <if test="birthday!='' and birthday!=null">birthday = #{birthday} , </if>
+			   idCard = #{idCard}, 
+			   mobile = #{mobile}, 
+			   phone = #{phone}, 
+			   email = #{email}, 
+			   addr = #{addr}, 
+			   operateUserId = #{operateUserId}, 
+			   opetateTime = #{opetateTime}, 
+			   isUsed = #{isUsed}, 
+			   sortNo = #{sortNo}			   
+		 WHERE userId = #{userId}
+	</update>
+	
+	<!-- 通过ID 修改信息 -->
+	<update id="updateSysInfoUserSimple" parameterType="com.sevendosoft.access.model.SysInfoUser" flushCache="true">
+		UPDATE sysinfouser
+		   SET userName = #{userName} , 
+		       passWord = #{passWord} , 
+		       isDefPassWord = #{isDefPassWord} , 
+		       operateUserId = #{operateUserId}, 
+		       roleId = #{roleId}, 
+			   opetateTime = #{opetateTime}
+		 WHERE userId = #{userId}
+	</update>
+	
+	<!-- 通过ID 修改状态 -->
+	<update id="updateSysInfoUserStasus" parameterType="com.sevendosoft.access.model.SysInfoUser" flushCache="true">
+		UPDATE sysinfouser
+		   SET isUsed = #{isUsed} 
+		 WHERE userId = #{userId}
+	</update>
+	<!-- 通过ID 修改密码 -->
+	<update id="updatePwdById" parameterType="com.sevendosoft.access.model.SysInfoUser" flushCache="true">
+		UPDATE sysinfouser
+		   SET passWord = #{passWord} 
+		 WHERE userId = #{userId}
+	</update>
+	<!-- 删除信息 -->
+	<delete id="delSysInfoUser" parameterType="java.lang.Long" flushCache="true">
+		DELETE FROM sysinfouser WHERE userId = #{userId}
+	</delete>
+	
+	<!-- 通过角色ID获取用户信息 -->
+	<select id="getUserInfoByroleId" parameterType="java.lang.Integer" resultType="java.lang.String" >
+		SELECT a.userName
+		  FROM sysinfouser a 
+		 WHERE a.roleId=#{roleId}
+	</select>
+	
+	<!-- 通过角色ID判断该角色是否可以被删除 -->
+	<select id="checkUserByRoleId" parameterType="java.lang.Integer" resultType="com.sevendosoft.access.model.SysInfoUser" >
+		SELECT * FROM sysinfouser where roleId=#{roleId}
+	</select>
+	
+</mapper>

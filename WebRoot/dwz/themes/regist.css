@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td { padding:0; margin:0; font-size:12px; line-height:100%; font-family:Arial, sans-serif;}
+
+ul, ol { list-style:none;}
+img { border:0;}
+
+body { margin:0; text-align:center; background:#FFF url(../default/images/login_bg.png) repeat-x top;}
+
+#regist { display:block; width:950px; margin:0 auto; text-align:left;}
+#regist_header { display:block; padding-top:40px; height:80px;}
+.regist_logo { float:left; margin-top:10px;}
+
+#regist_content { display:block; position:relative;}
+.registForm { display:block; width: 560px; margin: auto; }
+.registForm P { margin:20px 0;}
+.registForm label { width:70px; padding:0 0 0 10px; line-height:25px; color:#4c4c4c; font-size:14px;}
+.registForm span { display:block; width:100px; padding:0 0 0 10px; height:25px; line-height:25px; color:#4c4c4c; font-size:14px; float: left; }
+.registForm input { padding:3px 2px; border-style:solid; border-width:1px; float: left; }
+.registForm .code { float:left; margin-right:5px;}
+
+.regist_bar { padding-left:70px; }
+.regist_bar .sub { margin:20px; display:block; width:75px; height:30px; border:none; background:url(../default/images/login_sub.png) no-repeat; cursor:pointer; }
+
+#regist_footer { clear:both; display:block; margin-bottom:20px; padding:10px; border-top:solid 1px #e2e5e8; color:#666; text-align:center;}
+
+.error_text_color { color: #ff0000; }
+.error_input_boder_color { border-color:#ff0000; }
+.nomal_input_boder_color { border-color:#80a5c4; }
+
+.error_message { color: #ff0000; text-align: center; }

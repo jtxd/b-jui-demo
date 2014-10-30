@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysLogLog">
+
+	<!-- 日志列表信息  -->
+	<select id="getPageLoginList" parameterType="java.util.HashMap" resultType="java.util.HashMap" >
+		SELECT a.*,a1.userName
+		  FROM sysloglog a LEFT JOIN sysinfouser a1 ON a1.userId=a.userId  
+		 WHERE 1=1 
+		<if test=" '' != keyWord and keyWord != null">
+			AND (a1.userName LIKE '%${keyWord}%')
+		</if>
+		ORDER BY a.loginTime DESC
+		LIMIT #{start}, #{pageSize}
+	</select>
+	<select id="getPageInfoLoginCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+		SELECT COUNT(1) AS nums 
+		  FROM sysloglog a LEFT JOIN sysinfouser a1 ON a1.userId=a.userId  
+		 WHERE 1=1  
+		<if test=" '' != keyWord and keyWord != null">
+			AND (a1.userName LIKE '%${keyWord}%')
+		</if>
+	</select>
+
+	<!-- 把日志添加到日志历史信息中 -->
+	<insert id="insertLoginLogHis">
+		insert into 
+		syslogloghis(logId,userId,loginTime,logoutTime,logIp,lastLogTime,status)select logId,userId,loginTime,logoutTime,logIp,lastLogTime,status from sysloglog
+	</insert>
+	
+	<!-- 删除信息 日志信息-->
+	<select id="deleteLoginLog">
+		DELETE from sysloglog where logId!=-1
+	</select>
+	
+	<!-- 添加用户登录日志 -->
+	<insert id="addSysLoglog" parameterType="com.sevendosoft.access.model.SysLogLog" 
+		useGeneratedKeys="true"
+		keyColumn="logId"
+		keyProperty="logId"
+		flushCache="true">
+		insert into sysloglog (userId,loginTime,logIp,logoutTime,lastlogTime,status) values(#{userId},#{loginTime},#{logIp},-1,#{lastlogTime},#{status})
+	</insert>
+	<!-- 修改退出时间和状态 -->
+	<update id="updateLoginOutTimeByLogId" parameterType="com.sevendosoft.access.model.SysLogLog" flushCache="true" >
+		UPDATE sysloglog SET logoutTime=#{logoutTime},status=0 WHERE logId=#{logId}
+	</update>
+	
+	<!-- 通过用户ID获取上次登录的日志 -->
+	<select id="getlogByUserId" parameterType="java.lang.Integer" resultType="com.sevendosoft.access.model.SysLogLog">
+		SELECT l.* FROM sysloglog l where l.userId=#{userId} order by l.logintime DESC
+	</select>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysButtonLog">
+
+	<!-- 日志列表信息  -->
+	<select id="getPageLogList" parameterType="java.util.HashMap" resultType="java.util.HashMap" >
+		SELECT a.*,b.name,
+  			(SELECT userName from sysinfouser a1 where a1.userId=a.userId) userName
+		  FROM sysbuttonlog a LEFT JOIN sysinfourl b on a.permission=b.permission
+		 WHERE 1=1 
+		<if test="keyWord != null">
+			AND (a.logDesc LIKE '%${keyWord}%')
+		</if>
+		ORDER BY a.operaTime DESC
+		LIMIT #{start}, #{pageSize}
+	</select>
+	<select id="getPageInfoLogCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+		SELECT COUNT(1) AS nums 
+		  FROM sysbuttonlog a
+		 WHERE 1=1 
+		<if test="keyWord != null">
+			AND (a.logDesc LIKE '%${keyWord}%')
+		</if>
+	</select>
+
+	<!-- 把日志添加到日志历史信息中 -->
+	<insert id="insertButtonLogHis">
+		insert into sysbuttonloghis(logId,userId,urlId,permission,permValue,operaTime,logIp,logDesc)select logId,userId,urlId,permission,permValue,operaTime,logIp,logDesc from sysbuttonlog
+	</insert>
+	
+	<!-- 删除信息 日志信息-->
+	<select id="deleteButtonLog">
+		DELETE from sysbuttonlog where logId!=-1
+	</select>
+	
+	<!-- 添加菜单操作日志 -->
+	<insert id="addButtonLog" parameterType="com.sevendosoft.access.model.SysButtonLog" 
+		useGeneratedKeys="true"
+		keyColumn="logId"
+		keyProperty="logId"
+		flushCache="true">
+		INSERT INTO sysbuttonlog ( `userId`, `urlId`, `permission`, `permValue`, `operaTime`, `logIp` , logDesc ) 
+		VALUES 
+		( #{userId} , #{urlId} , #{permission}, #{permValue} , #{operaTime} , #{logIp} , #{logDesc} )
+	</insert>
+	
+	<!-- 定时清空历史日志信息  -->
+	<select id="deleteButtonLogHis">
+		DELETE from sysbuttonloghis where logId!=-1
+	</select>
+	<select id="deleteLoginLogHis">
+		DELETE from sysbuttonloghis where logId!=-1
+	</select>
+	
+	
+</mapper>

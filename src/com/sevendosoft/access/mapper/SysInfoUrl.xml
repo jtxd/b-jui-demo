@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysInfoUrl">
+
+	<!-- 通过roleId 查询信息 -->
+	<select id="getSysInfoUrlByRoleId" parameterType="java.lang.Long" resultType="com.sevendosoft.access.model.SysInfoUrl">
+		SELECT a.*,
+			IFNULL((select a1.permValue from sysprivilege a1 where a.urlId = a1.urlId and a1.roleId=#{roleId} ),-1) permValue 
+		FROM sysinfourl a ORDER BY a.sortNo
+	</select>
+	
+	<!-- 获取全部内容信息 -->
+	<select id="getSysInfoUrl" resultType="com.sevendosoft.access.model.SysInfoUrl">
+		SELECT a.* FROM sysinfourl a ORDER BY a.sortNo
+	</select>
+	
+	<!-- 通过id 获取菜单信息 -->
+	<select id="getSysInfoUrlById" resultType="com.sevendosoft.access.model.SysInfoUrl" parameterType="java.lang.Integer">
+		SELECT a.*,( SELECT a1.name FROM sysinfourl a1 WHERE a.parentId = a1.urlId ) parentName FROM sysinfourl a WHERE a.urlId = #{urlId}
+	</select>
+	
+	<!-- 通过id 获取菜单信息 -->
+	<select id="getsSysInfoUrlBy" resultType="com.sevendosoft.access.model.SysInfoUrl" parameterType="java.lang.Integer">
+		SELECT a.* FROM sysinfourl a WHERE a.urlId = #{urlId}
+	</select>
+	<!-- 通过id 获取菜单名称信息 -->
+	<select id="getInfoUrlNameById" resultType="java.lang.String" parameterType="java.lang.Integer">
+		SELECT a.name FROM sysinfourl a WHERE a.urlId = #{urlId}
+	</select>
+	
+	<!-- 查询是否存在子菜单 -->
+	<select id="getInfoUrlIsChiById" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT count(1) FROM sysinfourl a WHERE a.parentId = #{urlId}
+	</select>
+	
+	<!-- 修改菜单详细信息 -->
+	<update id="updateSysInfoUrl" parameterType="com.sevendosoft.access.model.SysInfoUrl" flushCache="true">
+		UPDATE sysinfourl 
+		   SET name = #{name}, 
+			   type = #{type} ,
+			   href = #{href}, 
+			   icon = #{icon}, 
+			   description = #{description}, 
+			   target = #{target}, 
+			   rel = #{rel},
+			   isUsed = #{isUsed}, 
+			   sortNo = #{sortNo},
+			   permission = #{permission}
+		 WHERE urlId = #{urlId}
+	</update>
+	
+	<!-- 添加信息 -->
+	<insert id="addSysInfoUrl" parameterType="com.sevendosoft.access.model.SysInfoUrl" 
+		flushCache="true" 
+		keyProperty="urlId" 
+		keyColumn="urlId" 
+		useGeneratedKeys="true"
+	>
+		INSERT INTO sysinfourl 
+		( name , href, icon, description ,target, rel , parentId , createTime , isUsed, sortNo ,permission ) VALUES 
+		( #{name} , #{href} , #{icon} , #{description} ,#{target} , #{rel} , #{parentId} , #{createTime} , #{isUsed},#{sortNo} , #{permission} )
+	</insert>
+	
+	<!-- 通过ID 修改状态 -->
+	<update id="updateSysInfoUrlisUsed" parameterType="com.sevendosoft.access.model.SysInfoUrl" flushCache="true">
+		UPDATE sysinfourl 
+		   SET isUsed = #{isUsed}
+		 WHERE urlId = #{urlId}
+	</update>
+	
+	<!-- 删除信息 -->
+	<delete id="delSysInfoUrl" parameterType="java.lang.Integer" flushCache="true">
+		DELETE FROM sysinfourl WHERE urlId = #{urlId}
+	</delete>
+	
+</mapper>

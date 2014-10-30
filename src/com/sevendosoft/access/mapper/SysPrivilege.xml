@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysPrivilege">
+
+	<!-- 通过ID 查询信息 -->
+	<select id="getSysPrivilegeById" parameterType="java.lang.Long" resultType="com.sevendosoft.access.model.SysPrivilege">
+		SELECT a.* FROM sysprivilege a WHERE a.roleId = #{roleId}
+	</select>
+
+	<!-- 通过角色ID 删除该角色所有权限 -->
+	<delete id="deleteSysPrivilegeByroleId" parameterType="java.lang.Long" flushCache="true">
+		DELETE FROM sysprivilege WHERE roleId = #{roleId}
+	</delete>
+	
+	<!-- 添加权限信息 -->
+	<insert id="addSysPrivilege" parameterType="java.util.Map" flushCache="true" useGeneratedKeys="true" >
+		INSERT INTO sysprivilege 
+		( roleId, urlId, permValue, permission ) VALUES 
+		<foreach collection="privilege" item="item" separator="," index="index" >
+		(  #{roleId}, #{item.urlId}, #{item.permValue}, #{item.permission})
+		</foreach>
+	</insert>
+	
+	<!-- 通过用户ID 获取该用户所有权限 -->
+	<select id="getsysprivilegeByUserId" parameterType="java.lang.Long" resultType="com.sevendosoft.access.model.SysPrivilege">
+		SELECT a.* FROM sysprivilege a 
+		  LEFT JOIN sysinfouser b  ON a.roleId = b.roleId
+		WHERE b.userId = #{userId}
+	</select>
+	
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysInfoRole">
+
+	<!-- 列表信息 -->
+	<select id="getPageInfoList" parameterType="java.util.HashMap" resultType="java.util.HashMap" >
+		SELECT a.*
+		  FROM sysinforole a
+		 WHERE 1=1 
+		<if test="keyWord != null">
+			AND (a.roleName LIKE '%${keyWord}%' or a.roleId LIKE '%${keyWord}%')
+		</if>
+		ORDER BY a.createTime DESC
+		LIMIT #{start}, #{pageSize}
+	</select>
+	<select id="getPageInfoListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+		SELECT COUNT(1) AS nums 
+		  FROM sysinforole a
+		 WHERE 1=1 
+		<if test="keyWord != null">
+			AND (a.roleName LIKE '%${keyWord}%' or a.roleId LIKE '%${keyWord}%')
+		</if>
+	</select>
+	
+	<select id="getRoles" resultType="com.sevendosoft.access.model.SysInfoRole">
+		select * from sysinforole
+	</select>
+	
+	
+	
+	<!-- 添加信息 -->
+	<insert id="addRoleInfo" parameterType="com.sevendosoft.access.model.SysInfoRole" 
+		flushCache="true" 
+		keyProperty="roleId" 
+		keyColumn="roleId" 
+		useGeneratedKeys="true"
+	>
+		INSERT INTO sysinforole 
+		( roleCode , roleName, isUsed, createTime ) VALUES 
+		( #{roleCode} , #{roleName} , #{isUsed} , #{createTime} )
+	</insert>
+	<!-- 添加子管理员信息 -->
+	<insert id="addChildRoleInfo" parameterType="com.sevendosoft.access.model.SysInfoRole" 
+		flushCache="true" 
+		keyProperty="roleId" 
+		keyColumn="roleId" 
+		useGeneratedKeys="true"
+	>
+		INSERT INTO sysinforole 
+		( roleCode , roleName, isUsed, createTime, parentId ) VALUES 
+		( #{roleCode} , #{roleName} , #{isUsed} , #{createTime} , #{parentId} )
+	</insert>
+	
+	<!--  -->
+	<select id="getSysInfoRoleList" resultType="com.sevendosoft.access.model.SysInfoRole">
+		SELECT * FROM sysinforole 
+	</select>
+	<!-- 通过ID 查询信息 -->
+	<select id="getRoleInfoById" parameterType="java.lang.Long" resultType="com.sevendosoft.access.model.SysInfoRole">
+		SELECT a.* FROM sysinforole a WHERE a.roleId = #{roleId}
+	</select>
+	<!--  查询所有role信息 -->
+	<select id="getSysRoles" parameterType="java.lang.Long" resultType="com.sevendosoft.access.model.SysInfoRole">
+		SELECT a.* FROM sysinforole a WHERE a.parentId = #{roleId}
+	</select>
+	
+	<!-- 通过ID 修改信息 -->
+	<update id="updateSysInfoRole" parameterType="com.sevendosoft.access.model.SysInfoRole" flushCache="true">
+		UPDATE sysinforole
+		   SET roleCode = #{roleCode} , 
+			   roleName = #{roleName}, 
+			   isUsed = #{isUsed} 
+		 WHERE roleId = #{roleId}
+	</update>
+	<!-- 通过ID 修改状态 -->
+	<update id="updateSysInfoRoleStasus" parameterType="com.sevendosoft.access.model.SysInfoRole" flushCache="true">
+		UPDATE sysinforole
+		   SET isUsed = #{isUsed} 
+		 WHERE roleId = #{roleId}
+	</update>
+	
+	<!-- 删除信息 -->
+	<delete id="delSysInfoRole" parameterType="java.lang.Long" flushCache="true">
+		DELETE FROM sysinforole WHERE roleId = #{roleId}
+	</delete>
+	
+</mapper>

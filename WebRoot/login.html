@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>启笃 - 权限管理系统</title>
+<link href="imgs/login.css" rel="stylesheet" type="text/css" />
+
+<script src="dwz/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="dwz/js/jquery.md5.js" type="text/javascript"></script>
+
+<style type="text/css">
+	.error_message { color: #ff0000; text-align: center; }
+</style>
+
+<script type="text/javascript">
+	$( function () {
+		var errorMessage = $( ".error_message" );
+		var form = $( "form[name='login']" );
+		form.submit( function () {
+			var email = $( "input[name='email']" );
+			var passwordObj = $( "input[name='password']" );
+			var codeObj = $( "input[name='code']" );
+			
+			if( email.val() == '' ) {
+				errorMessage.text( "请输入用户名！" );
+				return false;
+			}
+			if( passwordObj.val() == '' ) {
+				errorMessage.text( "请输入密码！" );
+				return false;
+			}
+			if( codeObj.val() == '' ) {
+				errorMessage.text( "请输入验证码！" );
+				return false;
+			}
+			
+			$.post( form.attr( "action" ), { 
+					"loginName":email.val(), 
+					"password":$.md5( $.md5( passwordObj.val() ) ), 
+					"code":codeObj.val() 
+				}, function ( data ) {
+					if( data.statusCode == 200 ) {
+						location.href="./main";
+					} else {
+						errorMessage.text( data.message );
+						changeCodeImage();
+					}
+			}, "json" );
+			return false;
+		} );
+		
+	} )
+	
+	function changeCodeImage() {
+		
+		$( "#code_imge" ).attr( "src", "./code.jsp?timestemp=" + new Date().getTime() );
+	}
+	
+</script>
+</head>
+<body>
+	<div id="login">
+		<div id="login_header">
+			<h1 class="login_logo">
+				<a href="#"><img src="imgs/login_logo.png" /></a>
+			</h1>
+			<div class="login_headerContent">
+				<div class="navList">
+					<ul>
+						<!-- <li><a href="#">设为首页</a></li>
+						<li><a href="http://bbs.dwzjs.com">反馈</a></li>
+						<li><a href="doc/dwz-user-guide.pdf" target="_blank">帮助</a></li> -->
+					</ul>
+				</div>
+				<h2 class="login_title"><img src="imgs/login_title.png" /></h2>
+			</div>
+		</div>
+		<div id="login_content">
+			<div class="loginForm">
+				<form name="login" action="./user/login" method="post" >
+					<p class="error_message" ></p>
+					<p>
+						<label>邮箱：</label>
+						<input type="text" name="email" size="20" class="login_input" />
+					</p>
+					<p>
+						<label>密码：</label>
+						<input type="password" name="password" size="20" class="login_input" />
+					</p>
+					<p>
+						<label>验证码：</label>
+						<input name="code" class="code" type="text" size="5" />
+						<span><img id="code_imge" src="./code.jsp" width="75" height="24" onclick="changeCodeImage()" /></span>
+					</p>
+					<div class="login_bar">
+						<input class="sub" type="submit" value="" style="float: left;" />
+					</div>
+				</form>
+			</div>
+			<div class="login_banner"><img src="imgs/login_banner.png" /></div>
+			<div class="login_main">
+				<ul class="helpList">
+					
+				</ul>
+				<div class="login_inner">
+					
+				</div>
+			</div>
+		</div>
+		<div id="login_footer">
+			7dosoft.com Inc. All Rights Reserved.
+		</div>
+	</div>
+</body>
+</html>
