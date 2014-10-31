@@ -45,12 +45,12 @@ function setroleListValue(roleId)
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<svdo:pmsnBtn clazz="add"  href="/user/role/addview" node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.ADD %>" target="dialog" max="false" rel="user_role_addview" name="添加超级管理员" width="750" height="450" />
-			<svdo:pmsnBtn clazz="edit" href="/user/role/addchiview?roleId={roleId}"  node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.ADDCHI %>"  target="dialog" max="false" rel="user_role_addchiview" name="添加子角色" width="750" height="450"/>
-			<svdo:pmsnBtn clazz="edit" href="/user/role/permissionview?roleId={roleId}"   node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.PER %>" target="dialog" max="true" name="授权" width="750" height="450" title="授权" id="user_role_permissionview"/>
+			<s:a clazz="add"  href="/user/role/addview" node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.ADD %>" target="dialog" max="false" rel="user_role_addview" name="添加超级管理员" width="750" height="450" />
+			<s:a clazz="edit" href="/user/role/addchiview?roleId={roleId}"  node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.ADDCHI %>"  target="dialog" max="false" rel="user_role_addchiview" name="添加子角色" width="750" height="450"/>
+			<s:a clazz="edit" href="/user/role/permissionview?roleId={roleId}"   node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.PER %>" target="dialog" max="true" name="授权" width="750" height="450" title="授权" id="user_role_permissionview"/>
 			<li class="line">line</li>
-			<svdo:pmsnBtn clazz="edit" href="/user/role/editstatus?roleId={roleId}"  node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.STATUS %>" target="ajaxTodo" title="确定要修改状态吗?" name="修改状态" id="user_role_editstatus" />
-			<svdo:pmsnBtn clazz="delete" href="/user/role/delview?roleId={roleId}"  node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.DELETE %>" target="ajaxTodo" title="确定要删除吗?" name="删除" id="user_role_delview" />	
+			<s:a clazz="edit" href="/user/role/editstatus?roleId={roleId}"  node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.STATUS %>" target="ajaxTodo" title="确定要修改状态吗?" name="修改状态" id="user_role_editstatus" />
+			<s:a clazz="delete" href="/user/role/delview?roleId={roleId}"  node="<%=RolePermission.class.getName() %>" permission="<%=RolePermission.DELETE %>" target="ajaxTodo" title="确定要删除吗?" name="删除" id="user_role_delview" />	
 
 		</ul>
 	</div>
@@ -66,33 +66,6 @@ function setroleListValue(roleId)
 						<ul class="tree treeFolder">
 							<svdo:tree list="${list }"/>
 							
-							<!-- 一级菜单 
-							<c:forEach items="${infoUrl}" var="info">
-								<c:if test="${info.parentId==-1 }">
-									<li><a order_detail="${info.roleId}" href="<%=basePath%>/order/info/last/${info.roleId}" onclick="javascript:setbuttonValue('${info.roleId}')"  target="ajax" rel="order_detail" fresh="true" >${info.name}</a>
-									
-								           
-												<c:forEach items="${infoUrl}" var="infochildren">
-													<c:if test="${infochildren.parentId == info.roleId }">
-														<ul>
-															<li><a order_detail="${infochildren.roleId}" href="<%=basePath%>/order/info/last/${infochildren.roleId}" onclick="javascript:setbuttonValue('${infochildren.roleId}')"  target="ajax" rel="order_detail" fresh="true" >${infochildren.name}</a>
-									                        
-																<c:forEach items="${infoUrl}" var="infochildchild">
-																	<c:if test="${infochildchild.parentId == infochildren.roleId }">
-																		<ul><li><a order_detail="${infochildchild.roleId}" href="<%=basePath%>/order/info/last/${infochildchild.roleId}" onclick="javascript:setbuttonValue('${infochildchild.roleId}')" target="ajax" rel="order_detail" fresh="true" >${infochildchild.name} </a></li></ul>
-																	</c:if>				
-																</c:forEach>
-									                        </li>
-								                        </ul>
-							                        </c:if>						
-												</c:forEach>
-											
-											
-									</li>
-								</c:if>
-							</c:forEach>
-							
-							-->
 							
 							
 						</ul>

@@ -27,7 +27,7 @@
                 <li><label>关键字：</label><input type="text" value="${keyWord}" name="keyWord" class="form-control" size="10" /></li>
                 <li><button type="submit" class="btn btn-default btn-sm">查询</button></li>
                 <li><a class="btn btn-orange btn-sm" href="javascript:navTab.reload('', {clearQuery:true});">清空查询</a></li>
-                <li><s:a clazz="btn btn-orange btn-sm"  href="/user/info/addview" node="<%=UserPermission.class.getName() %>" permission="<%=UserPermission.ADD %>" target="dialog" max="false" rel="user_info_addview" name="添加" width="750" height="450"  /></li>
+                <li><s:a clazz="btn btn-green btn-sm"  href="/user/info/addview" node="<%=UserPermission.class.getName() %>" permission="<%=UserPermission.ADD %>" target="dialog" max="false" rel="user_info_addview" name="添加" width="750" height="450"  /></li>
             </ul>
         </div>
     </form>
