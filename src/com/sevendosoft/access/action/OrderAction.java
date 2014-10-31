@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import com.sevendosoft.access.constant.permission.anno.Permission;
 import com.sevendosoft.access.model.SysInfoUrl;
 import com.sevendosoft.access.service.LogService;
 import com.sevendosoft.access.service.OrderService;
+import com.sevendosoft.init.SessionUtil;
 
 /**
  * <b>Description:</b></br> 
@@ -65,8 +67,23 @@ public class OrderAction
         ModelAndView view = new ModelAndView( "/system/order/order_list" );
         
         List<SysInfoUrl> infoUrl = this.orderService.getSysInfoUrl();
+
+        String basePath = SessionUtil.getBasePath(request) ;
+    	JSONArray array = new JSONArray() ;
+    	JSONObject object = null ;
+    	for (SysInfoUrl sysInfoUrl : infoUrl){
+    		object = new JSONObject() ;
+			object.put( "id" , sysInfoUrl.getUrlId() ) ;
+			object.put( "pId" , sysInfoUrl.getParentId() ) ;
+			object.put( "name" , sysInfoUrl.getName() ) ;
+			object.put( "nurl" , basePath + sysInfoUrl.getHref() ) ;
+			object.put( "target" , sysInfoUrl.getTarget() ) ;
+			object.put( "rel" , sysInfoUrl.getRel() ) ;
+			array.add(object) ;
+		}
+    	view.addObject( "infoUrl" , array ) ;
+        
         this.logService.addLog(request, RolePermission.class, 0 , "点击，菜单信息列表" ) ;
-        view.addObject( "infoUrl", infoUrl );
         return view;
     }
     
@@ -148,20 +165,59 @@ public class OrderAction
     }
 
     /**
+     * 添加子菜单
+     * @param codeArea
+     * @return
+     */
+    @RequestMapping( value="/child/add", method=RequestMethod.POST )
+    @ResponseBody
+    @Permission(node=MenuPermission.class , permission = MenuPermission.ADDROOT)
+    public String addchildInfo( 
+    		@ModelAttribute("infoUrl") SysInfoUrl infoUrl ,
+            HttpServletRequest request ,
+            HttpSession session  ) 
+    {
+        JSONObject obj = new JSONObject();
+        
+        int row = 0 ;
+        String message = null ;
+        try {
+            infoUrl.setCreateTime( System.currentTimeMillis() );
+            infoUrl.setHref("/"+infoUrl.getHref());
+            this.orderService.addSysInfoUrl(infoUrl) ;           
+            //添加操作日志
+            row = logService.addLog(request , MenuPermission.class , MenuPermission.ADDROOT ,"保存，根节点信息" );
+            
+        } catch( BusinessException e ) {
+            this.logger.info( e.getMessage() );
+            message = e.getMessage() ;
+        }
+        if( 0 < row ) {
+            obj.put( "statusCode", 200 );
+            obj.put( "message", "新增信息成功！" );
+            obj.put( "navTabId", "order_info_listview" );
+        } else {
+            obj.put( "statusCode", 300 );
+            obj.put( "message", "新增失败" + message + "！" );
+        }
+        return obj.toString();
+    }
+    
+    /**
      * 菜单详细信息编辑
      * @param session
      * @return
      */
     @RequestMapping( value="/info/last/{urlId}" )    
+    @ResponseBody
     @Auth
-    public ModelAndView infoLastUrlId( HttpServletRequest request ,  @PathVariable("urlId") int urlId ) 
+    public String infoLastUrlId( HttpServletRequest request ,  @PathVariable("urlId") int urlId ) 
     {
-        ModelAndView view = new ModelAndView( "/system/order/order_info" );
-        SysInfoUrl infoUrl = this.orderService.getSysInfoUrlById( urlId );
-        view.addObject( "infoUrl", infoUrl );
-        logService.addLog(request , MenuPermission.class , 0 ,"修改，菜单详细信息" );
+    	JSONObject result = new JSONObject() ;
+    	result.put( "infoUrl", this.orderService.getSysInfoUrlById( urlId ) );
         
-        return view;
+    	logService.addLog(request , MenuPermission.class , 0 ,"修改，菜单详细信息" );
+        return result.toString();
     }
     
     /**
