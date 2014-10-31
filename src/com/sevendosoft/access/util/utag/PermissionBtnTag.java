@@ -85,10 +85,9 @@ public class PermissionBtnTag extends TagSupport
 			if(flag)
 				a.append( " style="+"display:none" ) ;
 			
-			a.append( " ><span>"+name +"</span>" ) ;
-			a.append( " </a>" ) ;
+			a.append( " >"+name +"</a>" ) ;
 			
-			out.write(a.toString());
+			out.write(a.toString());			
 		} catch (IOException e)
 		{
 			

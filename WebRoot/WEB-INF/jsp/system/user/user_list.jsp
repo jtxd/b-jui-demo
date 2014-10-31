@@ -3,7 +3,7 @@
 <%@page import="com.sevendosoft.access.constant.permethod.role.UserPermission"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@taglib uri="/WEB-INF/svdo-tld/svdo.tld" prefix="svdo" %>
+<%@taglib uri="/WEB-INF/s-tld/s.tld" prefix="s" %>
 <%@ page language="java" contentType="textml; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false" %>
 
@@ -27,6 +27,7 @@
                 <li><label>关键字：</label><input type="text" value="${keyWord}" name="keyWord" class="form-control" size="10" /></li>
                 <li><button type="submit" class="btn btn-default btn-sm">查询</button></li>
                 <li><a class="btn btn-orange btn-sm" href="javascript:navTab.reload('', {clearQuery:true});">清空查询</a></li>
+                <li><s:a clazz="btn btn-orange btn-sm"  href="/user/info/addview" node="<%=UserPermission.class.getName() %>" permission="<%=UserPermission.ADD %>" target="dialog" max="false" rel="user_info_addview" name="添加" width="750" height="450"  /></li>
             </ul>
         </div>
     </form>
@@ -73,9 +74,10 @@
 				<td>${fn:substring(data.createDate,0,19)}</td>
                 <td><input type="checkbox" name="ids" class="j-icheck" value="1"></td>
                 <td>
-                	<svdo:pmsnBtn clazz="btn btn-green btn-sm" href="/user/info/editview?userId=${data.userId}" id="user_info_editview" node="<%=UserPermission.class.getName() %>" permission="<%=UserPermission.UPDATE %>"   target="dialog" max="false" rel="user_info_editview"  name="修改" width="750" height="450"/>
-                	<svdo:pmsnBtn clazz="btn btn-green btn-sm" href="/user/info/editstatus?userId=${data.userId}" permission="<%=UserPermission.STATUS %>" node="<%=UserPermission.class.getName() %>" target="ajaxTodo" title="确定要修改状态吗?" name="修改状态"/>
-					<svdo:pmsnBtn clazz="btn btn-red btn-sm" href="/user/info/delview?userId=${data.userId}" permission="<%=UserPermission.DELETE %>" node="<%=UserPermission.class.getName() %>" target="ajaxTodo" title="确定要删除吗?" name="删除"/>	
+                	<s:a clazz="btn btn-green btn-sm" href="/user/info/editview?userId=${data.userId}" id="user_info_editview" node="<%=UserPermission.class.getName() %>" permission="<%=UserPermission.UPDATE %>"  
+                	 target="dialog" max="false" rel="user_info_editview"  name="修改" width="750" height="450"/>
+                	<s:a clazz="btn btn-green btn-sm" href="/user/info/editstatus?userId=${data.userId}" permission="<%=UserPermission.STATUS %>" node="<%=UserPermission.class.getName() %>" target="ajaxTodo" title="确定要修改状态吗?" name="修改状态"/>
+					<s:a clazz="btn btn-red btn-sm" href="/user/info/delview?userId=${data.userId}" permission="<%=UserPermission.DELETE %>" node="<%=UserPermission.class.getName() %>" target="ajaxTodo" title="确定要删除吗?" name="删除"/>	
                 </td>
             </tr>
             </c:forEach>
