@@ -46,7 +46,6 @@ public class PermissionBtnTag extends TagSupport
 	{
 		try
 		{
-			StringBuilder li = new StringBuilder("<li") ;
 			
 			StringBuilder a = new StringBuilder("<a") ;
 			
@@ -54,7 +53,7 @@ public class PermissionBtnTag extends TagSupport
 			HttpServletRequest httpservletrequest = (HttpServletRequest)pageContext.getRequest();
 			HttpSession session = httpservletrequest.getSession() ;
 			if( null != id && !"".equals(id) ) a.append( " id="+id ) ;
-			if( null != clazz && !"".equals(clazz) ) a.append( " class="+clazz ) ;
+			if( null != clazz && !"".equals(clazz) ) a.append( " class='"+clazz +"'") ;
 			a.append( " href="+ SessionUtil.getBasePath(httpservletrequest) + href ) ;
 			if( null != target && !"".equals(target) ) a.append( " target="+target ) ;
 			a.append( " max="+max ) ;
@@ -84,16 +83,12 @@ public class PermissionBtnTag extends TagSupport
 			}
 			
 			if(flag)
-				li.append( " style="+"display:none" ) ;
+				a.append( " style="+"display:none" ) ;
 			
 			a.append( " ><span>"+name +"</span>" ) ;
 			a.append( " </a>" ) ;
 			
-			
-			//添加a标签到li标签
-			li.append( ">"+a.toString()+"</li>" ) ;	
-
-			out.write(li.toString());
+			out.write(a.toString());
 		} catch (IOException e)
 		{
 			

@@ -6,10 +6,10 @@
 <taglib> <!-- 标签定义成<test:add /> -->
     <tlibversion>1.0</tlibversion>
     <jspversion>1.2</jspversion>
-    <shortname>svdo</shortname> <!-- 这个test可以设置为空，你标签就可以定义成<add />了，不过一般比较常见的都是<test:add />这种类型的 -->
+    <shortname>s</shortname> <!-- 这个test可以设置为空，你标签就可以定义成<add />了，不过一般比较常见的都是<test:add />这种类型的 -->
     <!-- 通过roleId获取用户信息 -->
     <tag>
-       <name>pmsnBtn</name>
+       <name>a</name>
        <tagclass>com.sevendosoft.access.util.utag.PermissionBtnTag</tagclass>
        <bodycontent>empty</bodycontent> <!-- 就是<test:add ></test>中间的内容是空的 -->
        <info>Add Tag</info>
