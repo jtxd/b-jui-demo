@@ -59,7 +59,7 @@ public class PermissionBtnTag extends TagSupport
 			a.append( " max="+max ) ;
 			if( null != rel && !"".equals(rel) ) a.append( " rel="+rel ) ;
 			String tit = title==null?name:title ;
-			if( null != title && !"".equals(title) ) a.append( " title="+tit ) ;
+			if( null != title && !"".equals(title) ) a.append( " title='"+tit+"'" ) ;
 			if( null != width && !"".equals(width) ) a.append( " width="+width ) ;
 			if( null != height && !"".equals(height) ) a.append( " height="+height ) ;
 			if( null != fresh && !"".equals(fresh) ) a.append( " fresh="+fresh ) ;
