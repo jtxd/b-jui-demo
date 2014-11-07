@@ -12,6 +12,7 @@
 		int b = fc + random.nextInt(bc - fc); 
 		return new Color(r, g, b);   
 		
+		test3
 	}%>
 <%
 	//设置页面不缓存   
